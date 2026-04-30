@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="{% block meta_description %}NovelNest — Personalized book suggestions using collaborative, content-based, and hybrid filtering.{% endblock %}">
+  <meta name="theme-color" content="#0a0f1f">
+  <meta property="og:title" content="{% block og_title %}NovelNest{% endblock %}">
+  <meta property="og:description" content="{% block og_description %}Find your next favorite book with explainable recommendations.{% endblock %}">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>{% block title %}📚 NovelNest{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+  <!-- ======== Navbar ======== -->
+  <nav class="navbar" id="navbar">
+    <a href="/" class="navbar__brand">📚 NovelNest</a>
+    <button class="btn btn--outline btn--small navbar__toggle" id="nav-toggle" type="button">Menu</button>
+
+    <div class="navbar__search">
+      <form action="/search" method="get" id="search-form">
+        <input type="text" name="q" placeholder="Search by title or author…" value="{{ request.args.get('q', '') }}">
+        <button type="submit">🔍</button>
+      </form>
+    </div>
+
+    <div class="navbar__actions">
+      {% if session.get('username') %}
+      <a href="/" class="btn btn--outline btn--small">Home</a>
+      <a href="/discover" class="btn btn--outline btn--small">Discover</a>
+      <a href="/browse" class="btn btn--outline btn--small">Browse</a>
+      <a href="/onboarding" class="btn btn--outline btn--small">Onboarding</a>
+      <a href="/profile" class="btn btn--outline btn--small">Profile</a>
+      <button class="btn btn--outline btn--small" id="theme-toggle" type="button" aria-label="Toggle theme">🌙</button>
+      <div class="avatar-menu">
+        <button class="avatar-btn" id="avatar-btn" type="button">
+          {{ (session['username'][:1] if session.get('username') else 'U')|upper }}
+        </button>
+        <div class="avatar-dropdown" id="avatar-dropdown">
+          <a href="/profile">My Profile</a>
+          {% if session.get('role') == 'admin' %}
+          <a href="/admin">Admin Dashboard</a>
+          {% endif %}
+          <a href="/logout">Log Out</a>
+        </div>
+      </div>
+      {% if session.get('role') == 'admin' %}
+      <a href="/admin" class="btn btn--outline btn--small">Admin</a>
+      {% endif %}
+      {% else %}
+      <a href="/survey" class="btn btn--primary btn--small">Get Started →</a>
+      {% endif %}
+    </div>
+  </nav>
+
+  <!-- ======== Flash Messages ======== -->
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+  <div class="flash-messages">
+    {% for category, msg in messages %}
+    <div class="alert alert--{{ category }}">{{ msg }}</div>
+    {% endfor %}
+  </div>
+  {% endif %}
+  {% endwith %}
+
+  <!-- ======== Layout ======== -->
+  <div class="layout">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <!-- User Info -->
+      {% if session.get('username') %}
+      <div class="sidebar__section">
+        <div class="sidebar__title">👤 Your Profile</div>
+        <p class="sidebar__username">{{ session['username'] }}</p>
+        {% if session.get('genres') %}
+        <div class="genre-tags">
+          {% for g in session['genres'][:6] %}
+          <span class="genre-tag active">{{ g }}</span>
+          {% endfor %}
+        </div>
+        {% endif %}
+        <a href="/survey" class="btn btn--outline-dark btn--small">✏️ Retake Survey</a>
+      </div>
+      {% endif %}
+
+      <!-- Stats -->
+      <div class="sidebar__section">
+        <div class="sidebar__title">📊 Dataset Stats</div>
+        <div class="sidebar__stat"><span>Books</span><span class="sidebar__stat-value">{{ stats.books }}</span></div>
+        <div class="sidebar__stat"><span>Ratings</span><span class="sidebar__stat-value">{{ stats.ratings }}</span>
+        </div>
+        <div class="sidebar__stat"><span>Users</span><span class="sidebar__stat-value">{{ stats.users }}</span></div>
+      </div>
+
+      <!-- About -->
+      <div class="sidebar__section">
+        <div class="sidebar__title">ℹ️ About</div>
+        <p class="sidebar__copy">
+          Hybrid recommender combining popularity, content-based TF-IDF, and collaborative ALS filtering.
+        </p>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main">
+      {% block content %}{% endblock %}
+    </main>
+  </div>
+
+  <script defer src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+
+</html>

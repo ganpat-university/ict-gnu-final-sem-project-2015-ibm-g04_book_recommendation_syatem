@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MFA Verify - NovelNest</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="auth-page">
+  <section class="auth-card">
+    <h1 class="auth-title">Multi-Factor Authentication</h1>
+    <p class="auth-subtitle">Enter the 6-digit code from your authenticator app.</p>
+    {% if error %}<p class="auth-error">{{ error }}</p>{% endif %}
+    <form class="auth-form" method="POST">
+      <input class="auth-control" type="text" name="code" placeholder="6-digit code" required>
+      <button class="btn btn--primary" type="submit">Verify</button>
+    </form>
+  </section>
+</body>
+</html>

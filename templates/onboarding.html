@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Onboarding — NovelNest{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>3-Step Onboarding</h1>
+    <p>Genre → Mood → Length preferences to personalize your recommendations.</p>
+</div>
+
+<section class="panel">
+    <ul>
+        <li>Step 1: Choose your favorite genres</li>
+        <li>Step 2: Select your reading mood</li>
+        <li>Step 3: Pick preferred book length</li>
+    </ul>
+    <div class="hero__actions">
+        {% if survey_done %}
+        <a href="/survey?force=1" class="btn btn--primary">Retake Onboarding</a>
+        <a href="/discover" class="btn btn--outline">Go to Discover</a>
+        {% else %}
+        <a href="/survey" class="btn btn--primary">Start Onboarding</a>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

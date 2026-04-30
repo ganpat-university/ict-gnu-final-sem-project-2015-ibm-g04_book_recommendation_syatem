@@ -1,0 +1,228 @@
+{% extends "base.html" %}
+{% block title %}📚 Welcome — Set Up Your Profile{% endblock %}
+
+{% block content %}
+<div class="survey-wrapper">
+
+  <!-- Progress bar -->
+  <div class="survey-progress">
+    <div class="survey-progress__bar" id="progress-bar"></div>
+  </div>
+
+  <!-- ─── STEP 1: Name ─── -->
+  <div class="survey-card" id="step-1">
+    <div class="survey-card__icon">👋</div>
+    <h1 class="survey-card__title">Welcome to NovelNest</h1>
+    <p class="survey-card__subtitle">Let's personalise your experience. First, what should we call you?</p>
+
+    <form id="name-form" autocomplete="off">
+      <div class="survey-input-group">
+        <input type="text" id="username-input" name="username"
+               placeholder="Your first name or nickname"
+               maxlength="40" autocomplete="off" required>
+      </div>
+      <button type="submit" class="survey-btn survey-btn--primary" id="name-next-btn">
+        Continue <span class="arrow">→</span>
+      </button>
+    </form>
+  </div>
+
+  <!-- ─── STEP 2: Genre preferences ─── -->
+  <div class="survey-card is-hidden" id="step-2">
+    <div class="survey-card__icon">🎭</div>
+    <h2 class="survey-card__title">What genres do you enjoy?</h2>
+    <p class="survey-card__subtitle">Pick as many as you like — we'll use these to find your perfect reads.</p>
+
+    <div class="genre-grid" id="genre-grid">
+      {% for genre in genres %}
+      <button type="button" class="genre-chip" data-genre="{{ genre.id }}">
+        <span class="genre-chip__emoji">{{ genre.emoji }}</span>
+        <span class="genre-chip__label">{{ genre.label }}</span>
+      </button>
+      {% endfor %}
+    </div>
+
+    <div class="survey-nav">
+      <button class="survey-btn survey-btn--ghost" onclick="goStep(1)">← Back</button>
+      <button class="survey-btn survey-btn--primary" id="genre-next-btn" onclick="goStep(3)">
+        Continue <span class="arrow">→</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ─── STEP 3: Books already read ─── -->
+  <div class="survey-card is-hidden" id="step-3">
+    <div class="survey-card__icon">📖</div>
+    <h2 class="survey-card__title">Books you've already read</h2>
+    <p class="survey-card__subtitle">Search for books you've read so we don't recommend them again — and learn your taste.</p>
+
+    <div class="book-search-box">
+      <div class="book-search-input-wrap">
+        <span class="book-search-icon">🔍</span>
+        <input type="text" id="book-search-input" placeholder="Type a title or author…" autocomplete="off">
+      </div>
+      <div id="book-search-results" class="book-search-dropdown is-hidden"></div>
+    </div>
+
+    <!-- Selected books chips -->
+    <div id="selected-books" class="selected-books"></div>
+    <p class="survey-hint" id="selected-count">No books selected yet — you can skip this step.</p>
+
+    <div class="survey-nav">
+      <button class="survey-btn survey-btn--ghost" onclick="goStep(2)">← Back</button>
+      <button class="survey-btn survey-btn--primary" id="finish-btn" onclick="submitSurvey()">
+        Get My Recommendations 🚀
+      </button>
+    </div>
+  </div>
+
+</div><!-- /survey-wrapper -->
+
+<script>
+// ─── State ───────────────────────────────────────────────────
+const state = {
+  username: '',
+  genres: new Set(),
+  readBooks: new Map(),   // book_id → {title, author}
+};
+let currentStep = 1;
+let searchTimeout = null;
+document.getElementById('progress-bar').style.width = '33%';
+
+// ─── Navigation ──────────────────────────────────────────────
+function goStep(n) {
+  document.getElementById(`step-${currentStep}`).classList.add('is-hidden');
+  document.getElementById(`step-${n}`).classList.remove('is-hidden');
+  currentStep = n;
+  const pct = { 1: 33, 2: 66, 3: 100 }[n] || 33;
+  document.getElementById('progress-bar').style.width = pct + '%';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ─── Step 1: Name ────────────────────────────────────────────
+document.getElementById('name-form').addEventListener('submit', e => {
+  e.preventDefault();
+  const val = document.getElementById('username-input').value.trim();
+  if (!val) return;
+  state.username = val;
+  goStep(2);
+});
+
+// ─── Step 2: Genre chips ─────────────────────────────────────
+document.querySelectorAll('.genre-chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    const g = chip.dataset.genre;
+    if (state.genres.has(g)) {
+      state.genres.delete(g);
+      chip.classList.remove('active');
+    } else {
+      state.genres.add(g);
+      chip.classList.add('active');
+    }
+  });
+});
+
+// ─── Step 3: Book search ─────────────────────────────────────
+const searchInput = document.getElementById('book-search-input');
+const resultsDiv  = document.getElementById('book-search-results');
+
+searchInput.addEventListener('input', () => {
+  clearTimeout(searchTimeout);
+  const q = searchInput.value.trim();
+  if (q.length < 2) { resultsDiv.classList.add('is-hidden'); return; }
+  searchTimeout = setTimeout(() => fetchBooks(q), 280);
+});
+
+searchInput.addEventListener('blur', () => {
+  setTimeout(() => { resultsDiv.classList.add('is-hidden'); }, 200);
+});
+
+async function fetchBooks(q) {
+  try {
+    const res = await fetch(`/api/book_search?q=${encodeURIComponent(q)}&n=8`);
+    const data = await res.json();
+    if (!data.books || data.books.length === 0) {
+      resultsDiv.innerHTML = '<div class="book-search-empty">No results found</div>';
+      resultsDiv.classList.remove('is-hidden');
+      return;
+    }
+    resultsDiv.innerHTML = data.books.map(b => `
+      <div class="book-search-item" onclick="addBook(${b.book_id}, \`${escHtml(b.title)}\`, \`${escHtml(b.author)}\`)">
+        <img src="${b.image_url_m || ''}" onerror="this.src='https://via.placeholder.com/40x55'" alt="">
+        <div>
+          <div class="book-search-item__title">${escHtml(b.title)}</div>
+          <div class="book-search-item__author">${escHtml(b.author)}</div>
+        </div>
+      </div>
+    `).join('');
+    resultsDiv.classList.remove('is-hidden');
+  } catch(e) { resultsDiv.classList.add('is-hidden'); }
+}
+
+function escHtml(str) {
+  return String(str || '').replace(/`/g, "'").replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function addBook(id, title, author) {
+  if (state.readBooks.has(id)) return;
+  state.readBooks.set(id, { title, author });
+  renderSelectedBooks();
+  searchInput.value = '';
+  resultsDiv.classList.add('is-hidden');
+}
+
+function removeBook(id) {
+  state.readBooks.delete(id);
+  renderSelectedBooks();
+}
+
+function renderSelectedBooks() {
+  const container = document.getElementById('selected-books');
+  const count = document.getElementById('selected-count');
+  if (state.readBooks.size === 0) {
+    container.innerHTML = '';
+    count.textContent = 'No books selected yet — you can skip this step.';
+    return;
+  }
+  count.textContent = `${state.readBooks.size} book${state.readBooks.size > 1 ? 's' : ''} selected`;
+  container.innerHTML = [...state.readBooks.entries()].map(([id, b]) => `
+    <div class="read-chip">
+      <span class="read-chip__title">${escHtml(b.title)}</span>
+      <button onclick="removeBook(${id})" class="read-chip__remove" title="Remove">×</button>
+    </div>
+  `).join('');
+}
+
+// ─── Submit ──────────────────────────────────────────────────
+async function submitSurvey() {
+  const btn = document.getElementById('finish-btn');
+  btn.disabled = true;
+  btn.textContent = 'Setting up your profile…';
+
+  const payload = {
+    username: state.username,
+    genres:   [...state.genres],
+    read_books: [...state.readBooks.keys()],
+  };
+
+  try {
+    const res = await fetch('/survey/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    const data = await res.json();
+    if (data.ok) {
+      window.location.href = '/';
+    } else {
+      btn.disabled = false;
+      btn.textContent = 'Get My Recommendations 🚀';
+      alert('Something went wrong. Please try again.');
+    }
+  } catch(e) {
+    btn.disabled = false;
+    btn.textContent = 'Get My Recommendations 🚀';
+  }
+}
+</script>
+{% endblock %}

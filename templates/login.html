@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0a0f1f">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Login - NovelNest</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="auth-page">
+    <section class="auth-card">
+        <p class="hero__eyebrow auth-eyebrow">Secure access</p>
+        <h1 class="auth-title">Welcome back</h1>
+        <p class="auth-subtitle">Login to continue your personalized reading journey.</p>
+
+        {% if error %}
+        <p class="auth-error">{{ error }}</p>
+        {% endif %}
+        {% if success %}
+        <p class="auth-success">{{ success }}</p>
+        {% endif %}
+
+        <form class="auth-form" method="POST" action="/email-login">
+            <input class="auth-control" type="email" name="email" placeholder="Email" required>
+            <input class="auth-control" type="password" name="password" placeholder="Password" required>
+            <button class="btn btn--primary" type="submit">Login</button>
+        </form>
+        <p class="auth-link-row">
+            <a href="/forgot-password">Forgot password?</a>
+        </p>
+
+        <div class="auth-divider">or</div>
+
+        <a href="/google-login" class="auth-google-btn">
+            <img class="auth-google-icon" src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google icon">
+            Sign in with Google
+        </a>
+
+        <p class="auth-link-row">
+            Don't have an account? <a href="/signup">Sign up</a>
+        </p>
+    </section>
+</body>
+</html>

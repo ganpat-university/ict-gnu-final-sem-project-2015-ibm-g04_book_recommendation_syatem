@@ -1,0 +1,134 @@
+[
+    {
+        "email": "shubhashishdas11@gmail.com",
+        "password": "scrypt:32768:8:1$iOnVddFIeOcZGhaT$5c93f2f05ad381db50282a831040b387b86fc690a11cc1b2db667a4d976812a4c0beb03170e7dbecd5fe4a0c16af2c45cf24e4543f9aa66f84908184cf34c484",
+        "name": "Shubhashish das",
+        "survey_completed": false,
+        "genres": [],
+        "read_books": [],
+        "role": "user",
+        "mfa_enabled": false,
+        "totp_secret": "",
+        "checked_out_books": [],
+        "profile": {
+            "bio": "",
+            "location": "",
+            "phone": ""
+        }
+    },
+    {
+        "email": "shubhashishdas00@gmail.com",
+        "password": "scrypt:32768:8:1$7rbcGSXH1CJP9Bnk$8cf4315b72c494691ddbcd2fce84df701d2453d794dc0ffaf3182b5da0f407a9d6f945fb785f7a6666ee96ed4e5077dc785bb8a1aa80f134b3245fd4cb4bf402",
+        "name": "Shubhashish",
+        "survey_completed": false,
+        "genres": [],
+        "read_books": [],
+        "role": "user",
+        "mfa_enabled": false,
+        "totp_secret": "",
+        "checked_out_books": [],
+        "profile": {
+            "bio": "",
+            "location": "",
+            "phone": ""
+        }
+    },
+    {
+        "email": "garvitsolanki788@gmail.com",
+        "password": "",
+        "name": "garvit",
+        "genres": [
+            "fantasy",
+            "historical-fiction",
+            "crime"
+        ],
+        "read_books": [],
+        "survey_completed": true,
+        "role": "user",
+        "mfa_enabled": false,
+        "totp_secret": "",
+        "checked_out_books": [],
+        "profile": {
+            "bio": "",
+            "location": "",
+            "phone": ""
+        }
+    },
+    {
+        "email": "shubhashishdas33@gmail.com",
+        "password": "scrypt:32768:8:1$imMKP0crBiXftlo2$959d85064decfd9ae72c3bc7e7107026dda01ef8ec2aeca69f4a70a93826074affc56358f13f549e73e947b8bafcc4350781fa950ad5b02467519c54f6b1bfe2",
+        "name": "Shubhu",
+        "survey_completed": false,
+        "genres": [],
+        "read_books": [],
+        "role": "user",
+        "mfa_enabled": false,
+        "totp_secret": "",
+        "checked_out_books": [],
+        "profile": {
+            "bio": "",
+            "location": "",
+            "phone": ""
+        }
+    },
+    {
+        "email": "kathandesai22@gnu.ac.in",
+        "password": "scrypt:32768:8:1$ruwzkQswMMthK9H2$1a52626200dd41c78295cb8f3b9a0a357a47600df36e380b6c8f88847146929d4ce88fa7f35fb87cc2d9065925edd316067eea6b3c2aad3e63a163d23ef22f2f",
+        "name": "kathandesai22@gnu.ac.in",
+        "survey_completed": true,
+        "genres": [
+            "fiction",
+            "fantasy"
+        ],
+        "read_books": [
+            2
+        ],
+        "role": "user",
+        "mfa_enabled": false,
+        "totp_secret": "",
+        "checked_out_books": [],
+        "profile": {
+            "bio": "",
+            "location": "",
+            "phone": ""
+        }
+    },
+    {
+        "email": "admin@novelnest.local",
+        "password": "scrypt:32768:8:1$rWs2dioil6hSbcQq$1639ec50b767610cc81a76ed7b300ee231c42c7f479871ed7b7b0b4df3d004f7280f21e8665091cec207b2d59ed08330a0a02f80365a06cbebd2a77c5b01a48f",
+        "name": "NovelNest Administrator",
+        "survey_completed": true,
+        "genres": [],
+        "read_books": [],
+        "checked_out_books": [],
+        "role": "admin",
+        "mfa_enabled": false,
+        "totp_secret": "ZHHQI4TUZOZAQCJCWDJNVGX2GM7FMT4F",
+        "profile": {
+            "bio": "System administrator profile",
+            "location": "",
+            "phone": ""
+        }
+    },
+    {
+        "email": "kathandesai144@gmail.com",
+        "password": "scrypt:32768:8:1$9FxF3FWlXN92e7T8$4bf892965d842101dc1139b23c5a29465479880d196df7f3c4f785ef35b1ae7756911bd7d6a60b96b4ee4e9f7425606f82996281363e96fbd5301f23ec526f6a",
+        "name": "kathan",
+        "survey_completed": true,
+        "genres": [
+            "fiction",
+            "fantasy",
+            "non-fiction"
+        ],
+        "read_books": [],
+        "role": "user",
+        "mfa_enabled": true,
+        "totp_secret": "AUJSJPSREU3TAGH6OODVYK7367KXR75P",
+        "checked_out_books": [],
+        "profile": {
+            "bio": "",
+            "location": "",
+            "phone": ""
+        }
+    }
+]

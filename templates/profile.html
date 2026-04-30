@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block title %}My Profile — NovelNest{% endblock %}
+{% block content %}
+<section>
+  <div class="page-header">
+    <h1>My Profile</h1>
+    <p>Manage your reader identity, preferences, and reading signals.</p>
+  </div>
+
+  <div class="admin-user-grid">
+    <div class="admin-user-card">
+      <div class="sidebar__title">Account</div>
+      <p><strong>Name:</strong> {{ user.name }}</p>
+      <p><strong>Email:</strong> {{ user.email }}</p>
+      <p><strong>Role:</strong> {{ user.role }}</p>
+      <p><strong>MFA:</strong> {{ "Enabled" if user.mfa_enabled else "Disabled" }}</p>
+      {% if user.profile %}
+      <p><strong>Bio:</strong> {{ user.profile.bio or "-" }}</p>
+      <p><strong>Location:</strong> {{ user.profile.location or "-" }}</p>
+      <p><strong>Phone:</strong> {{ user.profile.phone or "-" }}</p>
+      {% endif %}
+    </div>
+    <div class="admin-user-card">
+      <div class="sidebar__title">Preferences</div>
+      {% if user.genres %}
+      <div class="genre-tags">
+        {% for g in user.genres %}
+        <span class="genre-tag active">{{ g }}</span>
+        {% endfor %}
+      </div>
+      {% else %}
+      <p class="section-sub">No genres selected yet.</p>
+      {% endif %}
+      <a class="btn btn--outline btn--small" href="/survey">Retake Survey</a>
+      <form method="post" action="/profile/reset" style="margin-top:0.6rem;">
+        <button class="btn btn--outline btn--small" type="submit">Reset Profile</button>
+      </form>
+    </div>
+  </div>
+
+  <h2 class="section-header">Loved Books</h2>
+  {% if loved_books %}
+  <div class="book-grid">
+    {% for book in loved_books %}
+    {% include "partials/book_card.html" %}
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="empty-state">
+    <div class="empty-state__icon">❤️</div>
+    <div class="empty-state__text">You have not marked any loved books yet.</div>
+  </div>
+  {% endif %}
+
+  <h2 class="section-header">Read Books</h2>
+  {% if read_books %}
+  <div class="book-grid">
+    {% for book in read_books %}
+    {% include "partials/book_card.html" %}
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="empty-state">
+    <div class="empty-state__icon">✅</div>
+    <div class="empty-state__text">You have not marked any read books yet.</div>
+  </div>
+  {% endif %}
+
+  <h2 class="section-header">Checked-Out Books (Auto from opened details)</h2>
+  {% if checked_out_books %}
+  <div class="book-grid">
+    {% for book in checked_out_books %}
+    {% include "partials/book_card.html" %}
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="empty-state">
+    <div class="empty-state__icon">📚</div>
+    <div class="empty-state__text">Open any book detail page and it appears here automatically.</div>
+  </div>
+  {% endif %}
+</section>
+{% endblock %}

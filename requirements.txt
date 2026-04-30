@@ -1,0 +1,31 @@
+# Enhanced NovelNest — Dependencies
+
+# Core data processing
+pandas>=1.5.0
+numpy>=1.21.0
+
+# Machine Learning & Recommendation
+# ALS collaborative filtering uses scipy (no external C-extension needed)
+scikit-learn>=1.0.0
+scipy>=1.9.0
+
+# Web Interface
+flask>=3.0.0
+gunicorn>=22.0.0
+Flask-Dance>=7.1.0
+Flask-Mail>=0.10.0
+pyotp>=2.9.0
+
+# Data downloading
+requests>=2.28.0
+boto3>=1.34.0
+sagemaker>=2.0.0
+pytest>=8.0.0
+fastapi>=0.115.0
+uvicorn>=0.30.0
+python-jose[cryptography]>=3.3.0
+passlib[bcrypt]>=1.7.4
+sqlalchemy>=2.0.0
+psycopg2-binary>=2.9.0
+redis>=5.0.0
+pydantic-settings>=2.0.0

@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}{{ book.title }} — NovelNest{% endblock %}
+
+{% block content %}
+<div class="book-detail">
+    <div class="book-detail__cover">
+        <img src="{{ book.image_url_l or book.image_url_m or 'https://via.placeholder.com/260x380?text=No+Cover' }}"
+            alt="{{ book.title }}" onerror="this.src='https://via.placeholder.com/260x380?text=No+Cover'">
+    </div>
+    <div class="book-detail__info">
+        <h1 class="book-detail__title">{{ book.title }}</h1>
+        <p class="book-detail__author">by {{ book.author }}</p>
+        <p class="book-detail__meta">
+            {% if book.year and book.year > 0 %}📅 {{ book.year|int }} | {% endif %}
+            📚 {{ book.publisher or 'Unknown Publisher' }}
+            | ID: {{ book.book_id }}
+        </p>
+
+        {% if book.avg_rating %}
+        <div class="book-detail__rating-badge">
+            ⭐ {{ "%.1f"|format(book.avg_rating) }}
+            {% if book.rating_count %}
+            <span class="book-detail__rating-meta"> · {{ book.rating_count|int }} reviews</span>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        {% if genres %}
+        <div class="book-detail__tags">
+            {% for g in genres %}
+            <span class="tag">{{ g }}</span>
+            {% endfor %}
+        </div>
+        {% endif %}
+        <div class="book-detail__actions">
+            <form action="/book/{{ book.book_id }}/track/read" method="post">
+                <button type="submit" class="btn btn--primary">
+                    {% if is_read %}Remove from Read{% else %}Mark as Read{% endif %}
+                </button>
+            </form>
+            <form action="/book/{{ book.book_id }}/track/love" method="post">
+                <button type="submit" class="btn btn--outline">
+                    {% if is_loved %}Remove from Loved{% else %}Mark as Loved{% endif %}
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<hr class="divider">
+
+{% if similar_books|length > 0 %}
+<h2 class="section-header">📚 Similar Books</h2>
+<div class="book-grid">
+    {% for book in similar_books %}
+    {% include "partials/book_card.html" %}
+    {% endfor %}
+</div>
+{% endif %}
+{% endblock %}

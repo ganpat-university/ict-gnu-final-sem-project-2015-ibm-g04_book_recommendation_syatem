@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Browse — NovelNest{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Browse Catalog</h1>
+    <p>Search across books and filter by genre.</p>
+</div>
+
+<section class="panel" style="margin-bottom: 1rem;">
+    <form method="get" action="/browse" class="auth-form">
+        <input class="auth-control" type="text" name="q" placeholder="Search title or author" value="{{ query }}">
+        <select class="auth-control" name="genre">
+            <option value="">All genres</option>
+            {% for g in genres %}
+            <option value="{{ g.id }}" {% if selected_genre == g.id %}selected{% endif %}>{{ g.label }}</option>
+            {% endfor %}
+        </select>
+        <button class="btn btn--primary" type="submit">Apply</button>
+    </form>
+</section>
+
+{% if books|length > 0 %}
+<div class="result-toolbar">
+    <span>{{ books|length }} book{% if books|length != 1 %}s{% endif %}</span>
+</div>
+<div class="book-grid">
+    {% for book in books %}
+    {% include "partials/book_card.html" %}
+    {% endfor %}
+</div>
+{% else %}
+<div class="empty-state">
+    <div class="empty-state__icon">📚</div>
+    <div class="empty-state__text">No books found for this filter. Try a different query or genre.</div>
+</div>
+{% endif %}
+{% endblock %}

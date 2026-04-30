@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Email - NovelNest</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="auth-page">
+    <section class="auth-card">
+        <h1 class="auth-title">Email Verification</h1>
+        <p class="auth-subtitle">Enter the 6-digit OTP sent to your email.</p>
+
+        <form class="auth-form" method="POST">
+            <input class="auth-control" type="text" name="otp" placeholder="------" maxlength="6" required>
+            <button class="btn btn--primary" type="submit">Verify OTP</button>
+        </form>
+
+        {% if error %}
+        <p class="auth-error">{{ error }}</p>
+        {% endif %}
+
+        <p class="auth-link-row">Didn't receive OTP? <a href="/resend-otp">Resend</a></p>
+    </section>
+</body>
+</html>

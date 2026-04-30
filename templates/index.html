@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero">
+    <div class="hero__content">
+        <p class="hero__eyebrow">Personalized discovery engine</p>
+        <h1>Find Your Next Favorite Book</h1>
+        <p>Curated recommendations powered by hybrid intelligence: collaborative filtering, content similarity, and your reading profile.</p>
+        <div class="hero__actions">
+            <a href="#reco-section" class="btn btn--primary">Get Recommendations</a>
+            <a href="/search" class="btn btn--outline">Browse Catalog</a>
+            <a href="/survey" class="btn btn--outline">Onboarding</a>
+            <a href="/profile" class="btn btn--outline">My Profile</a>
+        </div>
+    </div>
+    <div class="hero__meta">
+        <div class="hero__meta-card">
+            <span>Smart tabs</span>
+            <strong>For You, Popular, Author, Because You Read</strong>
+        </div>
+        <div class="hero__meta-card">
+            <span>Strict filtering</span>
+            <strong>Genre-matched and already-read exclusion</strong>
+        </div>
+    </div>
+</section>
+
+<div class="page-header" id="reco-section">
+    <h1>Recommendations Dashboard</h1>
+    <p>Switch tabs to browse personalized rails and discover books faster.</p>
+</div>
+
+<section class="panel" style="margin-bottom: 1rem;">
+    <h3 style="margin-top:0;">Quick Access</h3>
+    <div class="hero__actions">
+        <a href="/discover#reco-section" class="btn btn--outline">Discover</a>
+        <a href="/browse" class="btn btn--outline">Browse</a>
+        <a href="/onboarding" class="btn btn--outline">Onboarding</a>
+        <a href="/profile" class="btn btn--outline">Profile</a>
+    </div>
+</section>
+
+<!-- ======== Tabs ======== -->
+<div class="tabs">
+    <button class="tab-btn" data-tab="foryou">🔥 For You</button>
+    <button class="tab-btn" data-tab="popular">⭐ Popular</button>
+    <button class="tab-btn" data-tab="author">📖 By Author</button>
+    <button class="tab-btn" data-tab="personalized">🎯 Because You Read</button>
+</div>
+
+<!-- For You -->
+<div class="tab-panel" id="tab-foryou" data-url="/api/recommendations/foryou"></div>
+
+<!-- Popular -->
+<div class="tab-panel" id="tab-popular" data-url="/api/recommendations/popular"></div>
+
+<!-- By Author -->
+<div class="tab-panel" id="tab-author" data-url="/api/recommendations/author"></div>
+
+<!-- Personalized -->
+<div class="tab-panel" id="tab-personalized" data-url="/api/recommendations/personalized"></div>
+
+{% endblock %}

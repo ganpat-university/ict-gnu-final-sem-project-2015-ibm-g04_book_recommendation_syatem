@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - NovelNest</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="auth-page">
+    <section class="auth-card">
+        <h1 class="auth-title">Create your account</h1>
+        <p class="auth-subtitle">Get recommendations tailored to your reading taste.</p>
+        {% if error %}
+        <p class="auth-error">{{ error }}</p>
+        {% endif %}
+        {% if success %}
+        <p class="auth-success">{{ success }}</p>
+        {% endif %}
+
+        <form class="auth-form" method="POST" onsubmit="return validateForm()">
+            <input class="auth-control" type="text" name="name" placeholder="Full Name" required>
+            <input class="auth-control" type="email" name="email" placeholder="Email Address" required>
+
+            <div class="input-group">
+                <input class="auth-control" type="password" id="password" name="password" placeholder="Password" required onkeyup="checkPassword()">
+                <span class="eye" onclick="togglePassword('password', this)">👁️</span>
+            </div>
+
+            <div class="input-group">
+                <input class="auth-control" type="password" id="confirm" placeholder="Confirm Password" required onkeyup="checkPassword()">
+                <span class="eye" onclick="togglePassword('confirm', this)">👁️</span>
+            </div>
+
+            <button class="btn btn--primary" type="submit">Create Account</button>
+        </form>
+
+        <div class="auth-rules">
+            <p id="length" class="invalid">• At least 8 characters</p>
+            <p id="upper" class="invalid">• One uppercase letter</p>
+            <p id="number" class="invalid">• One number</p>
+            <p id="match" class="invalid">• Passwords match</p>
+        </div>
+
+        <p class="auth-link-row">Already have an account? <a href="/login">Login</a></p>
+    </section>
+
+    <script>
+        function togglePassword(fieldId, icon) {
+            let field = document.getElementById(fieldId);
+
+            if (field.type === "password") {
+                field.type = "text";
+                icon.innerText = "🙈";
+            } else {
+                field.type = "password";
+                icon.innerText = "👁️";
+            }
+        }
+
+        function checkPassword() {
+            let pass = document.getElementById("password").value;
+            let confirm = document.getElementById("confirm").value;
+
+            document.getElementById("length").className =
+                pass.length >= 8 ? "valid" : "invalid";
+
+            document.getElementById("upper").className =
+                /[A-Z]/.test(pass) ? "valid" : "invalid";
+
+            document.getElementById("number").className =
+                /[0-9]/.test(pass) ? "valid" : "invalid";
+
+            document.getElementById("match").className =
+                pass === confirm && pass !== "" ? "valid" : "invalid";
+        }
+
+        function validateForm() {
+            let pass = document.getElementById("password").value;
+            let confirm = document.getElementById("confirm").value;
+
+            if (pass !== confirm) {
+                alert("Passwords do not match!");
+                return false;
+            }
+
+            if (pass.length < 8 || !/[A-Z]/.test(pass) || !/[0-9]/.test(pass)) {
+                alert("Password does not meet requirements!");
+                return false;
+            }
+
+            return true;
+        }
+    </script>
+</body>
+</html>

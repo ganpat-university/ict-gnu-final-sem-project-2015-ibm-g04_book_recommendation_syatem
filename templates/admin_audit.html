@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard{% endblock %}
+{% block content %}
+<section>
+  <div class="page-header">
+    <h1>Admin Dashboard</h1>
+    <p>Manage users, track activity, and review audit data for the live site at <strong>http://13.204.232.136:5000</strong>.</p>
+  </div>
+
+  <div class="admin-summary-grid">
+    <div class="admin-stat-card">
+      <div class="admin-stat-label">Users</div>
+      <div class="admin-stat-value" data-counter="{{ summary.users_count }}">0</div>
+    </div>
+    <div class="admin-stat-card">
+      <div class="admin-stat-label">Admins</div>
+      <div class="admin-stat-value" data-counter="{{ summary.admins_count }}">0</div>
+    </div>
+    <div class="admin-stat-card">
+      <div class="admin-stat-label">Checked-Out Books</div>
+      <div class="admin-stat-value" data-counter="{{ summary.checked_out_total }}">0</div>
+    </div>
+    <div class="admin-stat-card">
+      <div class="admin-stat-label">Tracked Events</div>
+      <div class="admin-stat-value" data-counter="{{ summary.activity_count }}">0</div>
+    </div>
+  </div>
+
+  <h2 class="section-header">Recent User Activity</h2>
+  <div class="result-toolbar">
+    <input id="activity-search" class="auth-control" placeholder="Filter activity by user/event..." style="max-width:320px;">
+  </div>
+  <div class="audit-table-wrap">
+    <table class="audit-table" id="activity-table">
+      <thead>
+        <tr>
+          <th>Timestamp</th>
+          <th>User</th>
+          <th>Event</th>
+          <th>Metadata</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in activities %}
+        <tr>
+          <td>{{ row.ts }}</td>
+          <td>{{ row.email or "-" }}</td>
+          <td>{{ row.event }}</td>
+          <td>{{ row.metadata }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="section-header">User Profile Management</h2>
+  <div class="admin-user-grid">
+    {% for user in users %}
+    <div class="admin-user-card">
+      <form action="/admin/users/{{ user.encoded_email }}/update" method="post" class="admin-user-form js-admin-save-form">
+        <div class="admin-user-head">
+          <div>
+            <strong>{{ user.email }}</strong>
+            <div class="section-sub">Checked out: {{ user.checked_out_books|length }}</div>
+          </div>
+          {% if user.email == admin_email %}
+          <span class="tag">Primary Admin</span>
+          {% endif %}
+        </div>
+        <label>Name</label>
+        <input class="auth-control" type="text" name="name" value="{{ user.name }}">
+        <label>Role</label>
+        <select class="auth-control" name="role">
+          <option value="user" {% if user.role != 'admin' %}selected{% endif %}>User</option>
+          <option value="admin" {% if user.role == 'admin' %}selected{% endif %}>Admin</option>
+        </select>
+        <label>New Password (leave blank to keep current)</label>
+        <input class="auth-control" type="password" name="new_password" placeholder="Set a new password">
+        <label><input type="checkbox" name="mfa_enabled" {% if user.mfa_enabled %}checked{% endif %}> MFA Enabled</label>
+        <label>Bio</label>
+        <input class="auth-control" type="text" name="bio" value="{{ user.profile.bio if user.profile else '' }}">
+        <label>Location</label>
+        <input class="auth-control" type="text" name="location" value="{{ user.profile.location if user.profile else '' }}">
+        <label>Phone</label>
+        <input class="auth-control" type="text" name="phone" value="{{ user.profile.phone if user.profile else '' }}">
+        <div class="admin-user-actions">
+          <button type="submit" class="btn btn--primary btn--small js-save-btn">Save Profile</button>
+        </div>
+      </form>
+      <form action="/admin/users/{{ user.encoded_email }}/checkout/clear" method="post" class="js-confirm-form" data-confirm="Clear all checked-out books for {{ user.email }}?">
+        <button type="submit" class="btn btn--outline btn--small">Clear Checked-Out</button>
+      </form>
+    </div>
+    {% endfor %}
+  </div>
+
+  <h2 class="section-header">Security Audit Logs</h2>
+  <div class="result-toolbar">
+    <input id="audit-search" class="auth-control" placeholder="Filter audit logs..." style="max-width:320px;">
+  </div>
+  <div class="audit-table-wrap">
+    <table class="audit-table" id="audit-table">
+      <thead>
+        <tr>
+          <th>Timestamp</th>
+          <th>Event</th>
+          <th>Email</th>
+          <th>Status</th>
+          <th>Metadata</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in logs %}
+        <tr>
+          <td>{{ row.ts }}</td>
+          <td>{{ row.event }}</td>
+          <td>{{ row.email }}</td>
+          <td>{{ row.status }}</td>
+          <td>{{ row.metadata }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}

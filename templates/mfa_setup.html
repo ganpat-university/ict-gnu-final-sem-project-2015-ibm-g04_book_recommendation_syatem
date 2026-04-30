@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MFA Setup - NovelNest</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="auth-page">
+  <section class="auth-card">
+    <h1 class="auth-title">Set up MFA</h1>
+    <p class="auth-subtitle">Scan the QR code in Google Authenticator/Authy. If scan is not available, use the secret key manually.</p>
+
+    <p><strong>Scan QR code:</strong></p>
+    <div style="display:flex;justify-content:center;margin:0.6rem 0 0.9rem;">
+      <img
+        src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data={{ provisioning_uri|urlencode }}"
+        alt="MFA QR code"
+        width="200"
+        height="200"
+        style="border:1px solid var(--border);border-radius:10px;background:#fff;padding:8px;"
+      >
+    </div>
+
+    <p><strong>Manual secret key:</strong></p>
+    <code id="mfa-secret">{{ secret }}</code>
+    <button class="btn btn--outline btn--small" type="button" id="copy-secret-btn">Copy secret</button>
+
+    <details style="margin-top:0.8rem;">
+      <summary style="cursor:pointer;color:var(--text-muted);">Advanced: show provisioning URI</summary>
+      <code>{{ provisioning_uri }}</code>
+    </details>
+
+    {% if error %}<p class="auth-error">{{ error }}</p>{% endif %}
+    <form class="auth-form" method="POST">
+      <input class="auth-control" type="text" name="code" placeholder="6-digit code" required>
+      <button class="btn btn--primary" type="submit">Verify and Continue</button>
+    </form>
+  </section>
+  <script>
+    (function () {
+      var btn = document.getElementById("copy-secret-btn");
+      var secretEl = document.getElementById("mfa-secret");
+      if (!btn || !secretEl) return;
+      btn.addEventListener("click", async function () {
+        var value = (secretEl.textContent || "").trim();
+        if (!value) return;
+        try {
+          await navigator.clipboard.writeText(value);
+          btn.textContent = "Copied";
+          setTimeout(function () { btn.textContent = "Copy secret"; }, 1200);
+        } catch (e) {
+          btn.textContent = "Copy failed";
+          setTimeout(function () { btn.textContent = "Copy secret"; }, 1200);
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<div class="book-card">
+    <div class="book-card__badge">Recommended</div>
+    <img class="book-card__img"
+        src="{{ book.image_url_m or book.image_url_l or 'https://via.placeholder.com/180x240?text=No+Cover' }}"
+        alt="{{ book.title }}" loading="lazy" onerror="this.src='https://via.placeholder.com/180x240?text=No+Cover'">
+    <div class="book-card__body">
+        <div class="book-card__title">{{ book.title[:50] }}{% if book.title|length > 50 %}…{% endif %}</div>
+        <div class="book-card__author">{{ book.author[:35] }}{% if book.author|length > 35 %}…{% endif %}</div>
+        <div class="book-card__meta">
+            <span>Book #{{ book.book_id }}</span>
+        </div>
+        {% if book.avg_rating is defined and book.avg_rating %}
+        <div class="book-card__rating">⭐ {{ "%.1f"|format(book.avg_rating) }}</div>
+        {% elif book.rating is defined and book.rating %}
+        <div class="book-card__rating">⭐ {{ "%.1f"|format(book.rating) }}</div>
+        {% endif %}
+        <div class="hero__actions" style="margin-top:0.5rem;">
+            <a href="/book/{{ book.book_id }}" class="btn btn--outline btn--small">Details</a>
+            <form action="/book/{{ book.book_id }}/track/read" method="post" style="display:inline;">
+                <button type="submit" class="btn btn--primary btn--small">Read</button>
+            </form>
+            <form action="/book/{{ book.book_id }}/track/love" method="post" style="display:inline;">
+                <button type="submit" class="btn btn--outline btn--small">Loved</button>
+            </form>
+        </div>
+    </div>
+</div>

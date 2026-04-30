@@ -1,0 +1,48 @@
+[
+  {
+    "ts": 1777527390,
+    "event": "email_login",
+    "email": "kathandesai144@gmail.com",
+    "status": "failed",
+    "metadata": {
+      "reason": "invalid_credentials"
+    }
+  },
+  {
+    "ts": 1777527408,
+    "event": "email_login",
+    "email": "kathandesai144@gmail.com",
+    "status": "failed",
+    "metadata": {
+      "reason": "invalid_credentials"
+    }
+  },
+  {
+    "ts": 1777527496,
+    "event": "email_login",
+    "email": "kathandesai144@gmail.com",
+    "status": "success",
+    "metadata": {}
+  },
+  {
+    "ts": 1777527640,
+    "event": "email_login",
+    "email": "kathandesai144@gmail.com",
+    "status": "success",
+    "metadata": {}
+  },
+  {
+    "ts": 1777531107,
+    "event": "email_login",
+    "email": "kathandesai144@gmail.com",
+    "status": "success",
+    "metadata": {}
+  },
+  {
+    "ts": 1777531133,
+    "event": "mfa_setup_complete",
+    "email": "kathandesai144@gmail.com",
+    "status": "success",
+    "metadata": {}
+  }
+]

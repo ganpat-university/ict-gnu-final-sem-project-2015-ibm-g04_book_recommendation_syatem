@@ -1,0 +1,164 @@
+[
+  {
+    "ts": 1777487811,
+    "email": "admin@novelnest.local",
+    "event": "admin_clear_checkouts",
+    "metadata": {
+      "target_email": "shubhashishdas33@gmail.com"
+    }
+  },
+  {
+    "ts": 1777487839,
+    "email": "admin@novelnest.local",
+    "event": "admin_clear_checkouts",
+    "metadata": {
+      "target_email": "shubhashishdas33@gmail.com"
+    }
+  },
+  {
+    "ts": 1777489318,
+    "email": "admin@novelnest.local",
+    "event": "search",
+    "metadata": {
+      "query": "j.k.rowling",
+      "results_count": 0
+    }
+  },
+  {
+    "ts": 1777489326,
+    "email": "admin@novelnest.local",
+    "event": "search",
+    "metadata": {
+      "query": "rowling",
+      "results_count": 20
+    }
+  },
+  {
+    "ts": 1777489337,
+    "email": "admin@novelnest.local",
+    "event": "book_view",
+    "metadata": {
+      "book_id": 21,
+      "title": "Harry Potter and the Order of the Phoenix (Harry Potter, #5)"
+    }
+  },
+  {
+    "ts": 1777489374,
+    "email": "admin@novelnest.local",
+    "event": "search",
+    "metadata": {
+      "query": "twisted",
+      "results_count": 6
+    }
+  },
+  {
+    "ts": 1777489379,
+    "email": "admin@novelnest.local",
+    "event": "search",
+    "metadata": {
+      "query": "law",
+      "results_count": 20
+    }
+  },
+  {
+    "ts": 1777489382,
+    "email": "admin@novelnest.local",
+    "event": "book_view",
+    "metadata": {
+      "book_id": 521,
+      "title": "The Lincoln Lawyer (Mickey Haller, #1; Harry Bosch Universe, #16)"
+    }
+  },
+  {
+    "ts": 1777489384,
+    "email": "admin@novelnest.local",
+    "event": "book_checkout",
+    "metadata": {
+      "book_id": 521,
+      "title": "The Lincoln Lawyer (Mickey Haller, #1; Harry Bosch Universe, #16)"
+    }
+  },
+  {
+    "ts": 1777489385,
+    "email": "admin@novelnest.local",
+    "event": "book_view",
+    "metadata": {
+      "book_id": 521,
+      "title": "The Lincoln Lawyer (Mickey Haller, #1; Harry Bosch Universe, #16)"
+    }
+  },
+  {
+    "ts": 1777519330,
+    "email": "kathandesai144@gmail.com",
+    "event": "survey_submit",
+    "metadata": {
+      "genres_count": 3,
+      "read_books_count": 0,
+      "proxy_uid": 3022
+    }
+  },
+  {
+    "ts": 1777519352,
+    "email": "kathandesai144@gmail.com",
+    "event": "search",
+    "metadata": {
+      "query": "rowling",
+      "results_count": 20
+    }
+  },
+  {
+    "ts": 1777527324,
+    "email": "admin@novelnest.local",
+    "event": "book_view",
+    "metadata": {
+      "book_id": 1308,
+      "title": "A Court of Mist and Fury (A Court of Thorns and Roses, #2)"
+    }
+  },
+  {
+    "ts": 1777531211,
+    "email": "kathandesai144@gmail.com",
+    "event": "survey_submit",
+    "metadata": {
+      "genres_count": 3,
+      "read_books_count": 0,
+      "proxy_uid": 2501
+    }
+  },
+  {
+    "ts": 1777531300,
+    "email": "kathandesai144@gmail.com",
+    "event": "book_view",
+    "metadata": {
+      "book_id": 687,
+      "title": "1776"
+    }
+  },
+  {
+    "ts": 1777531352,
+    "email": "kathandesai144@gmail.com",
+    "event": "search",
+    "metadata": {
+      "query": "ROWLING",
+      "results_count": 20
+    }
+  },
+  {
+    "ts": 1777531354,
+    "email": "kathandesai144@gmail.com",
+    "event": "book_view",
+    "metadata": {
+      "book_id": 18,
+      "title": "Harry Potter and the Prisoner of Azkaban (Harry Potter, #3)"
+    }
+  },
+  {
+    "ts": 1777531490,
+    "email": "kathandesai144@gmail.com",
+    "event": "book_view",
+    "metadata": {
+      "book_id": 687,
+      "title": "1776"
+    }
+  }
+]
